@@ -9,7 +9,6 @@ const name = "Shariar Abdullah Nafi";
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{name} — Portfolio</title>
@@ -31,7 +30,7 @@ const name = "Shariar Abdullah Nafi";
 	>
 		<main class="w-full max-w-xl mx-auto px-6 sm:px-8 py-16 sm:py-24">
 			<!-- Header / Greeting -->
-			<header class="mb-8 sm:mb-10">
+			<header class="mb-6 sm:mb-8">
 				<h1
 					class="font-title text-2xl sm:text-[1.75rem] font-normal leading-[1.35] tracking-tight text-stone-800"
 				>
@@ -41,10 +40,30 @@ const name = "Shariar Abdullah Nafi";
 				</h1>
 			</header>
 
+			<!-- About -->
+			<section
+				class="space-y-3 sm:space-y-3.5 text-stone-700 text-base sm:text-lg leading-relaxed"
+			>
+				<p>I'm currently studying Computer Science.</p>
+				<p>
+					My focus is on backend engineering, distributed systems, and
+					API design.
+				</p>
+				<p>
+					In my free time, I enjoy solving algorithmic problems on <a
+						href="https://codeforces.com/profile/uvwxz"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="text-stone-800 underline underline-offset-4 decoration-stone-300 hover:text-stone-950 hover:decoration-stone-500 transition-colors"
+						>Codeforces</a
+					>.
+				</p>
+			</section>
+
 			<!-- Action Buttons -->
 			<nav
 				aria-label="Social links"
-				class="mt-10 sm:mt-12 flex flex-wrap items-center gap-3"
+				class="mt-8 sm:mt-10 flex flex-wrap items-center gap-3"
 			>
 				<!-- LinkedIn Button -->
 				<a
