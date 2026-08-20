@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+@theme {
+  --font-title: "Fraunces", serif;
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --color-canvas: #fbfbfa;
+  --color-foreground: #2c2c2a;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
