@@ -1,0 +1,71 @@
+---
+import { ClientRouter } from "astro:transitions";
+import { site } from "../config/site";
+import Navbar from "../components/layout/Navbar.astro";
+import Footer from "../components/layout/Footer.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = `${site.name} - ${site.role}`, description = site.bio } =
+  Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+
+const themeScript = `(() => {
+  const applyTheme = () => {
+    let stored;
+    try { stored = localStorage.getItem('theme'); } catch {}
+    const theme = stored === 'light' || stored === 'dark'
+      ? stored
+      : matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.classList.toggle('dark', theme === 'dark');
+  };
+  applyTheme();
+  document.addEventListener('astro:after-swap', applyTheme);
+})()`;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- Client Router for SPA View Transitions -->
+    <ClientRouter />
+
+    <!-- Blocking inline theme initialization to prevent FOUC -->
+    <script is:inline set:html={themeScript} />
+  </head>
+  <body
+    class="min-h-screen bg-background text-foreground flex flex-col selection:bg-accent/20 selection:text-foreground"
+  >
+    <Navbar />
+    <main class="mx-auto max-w-235 px-6 py-14 w-full flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

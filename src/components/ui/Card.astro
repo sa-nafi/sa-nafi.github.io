@@ -1,0 +1,48 @@
+---
+import Icon from '../icons/Icon.astro'
+
+interface Props {
+  title: string
+  description: string
+  tags?: string[]
+  href?: string
+  badge?: string
+}
+
+const { title, description, tags = [], href, badge } = Astro.props
+const Component = href ? 'a' : 'div'
+---
+
+<Component
+  href={href}
+  target={href?.startsWith('http') ? '_blank' : undefined}
+  rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+  class="group flex flex-col gap-2.5 rounded-xl border border-border bg-panel p-4.5 transition duration-150 hover:-translate-y-0.5 hover:border-border-strong"
+>
+  {badge && (
+    <div class="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+      <span class="rounded-md bg-panel-2 px-1.5 py-0.5 font-mono text-[10.5px] font-semibold text-foreground">
+        {badge}
+      </span>
+    </div>
+  )}
+  <h3 class="text-base font-semibold leading-snug text-foreground group-hover:text-primary transition-colors">
+    {title}
+  </h3>
+  <p class="text-sm text-muted-foreground leading-relaxed">
+    {description}
+  </p>
+  <div class="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
+    {tags.map((tag) => (
+      <span class="rounded-md border border-border bg-panel-2 px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
+        {tag}
+      </span>
+    ))}
+    {href && (
+      <Icon
+        name={href.startsWith('http') ? 'external-link' : 'arrow-right'}
+        class="size-3.5 ml-auto text-muted-2 group-hover:text-foreground transition-colors"
+      />
+    )}
+  </div>
+</Component>
