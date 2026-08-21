@@ -1,0 +1,88 @@
+---
+import { getCollection, render } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import Icon from '../../components/icons/Icon.astro'
+import { site } from '../../config/site'
+import { formatDate, estimateReadingTime } from '../../lib/utils'
+
+export async function getStaticPaths() {
+  try {
+    const posts = await getCollection('blog', ({ data }) => !data.draft)
+    return (posts || []).map((post) => ({
+      params: { slug: post.id },
+      props: { post },
+    }))
+  } catch {
+    return []
+  }
+}
+
+const { post } = Astro.props
+const { Content } = await render(post)
+
+const formattedDate = formatDate(post.data.publishedAt)
+const readingTime = estimateReadingTime(post.body || '')
+---
+
+<BaseLayout
+  title={`${post.data.title} — ${site.name}`}
+  description={post.data.description}
+>
+  <article class="flex flex-col gap-6 max-w-180 mx-auto w-full">
+    <div>
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6"
+      >
+        <Icon name="arrow-left" class="size-3.5" />
+        Back to all posts
+      </a>
+
+      <div class="flex items-center gap-2 font-mono text-xs uppercase tracking-wide text-muted-foreground mb-3">
+        <span>{formattedDate}</span>
+        <span>·</span>
+        <span>{readingTime}</span>
+      </div>
+
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-foreground leading-tight">
+        {post.data.title}
+      </h1>
+
+      <p class="mt-3 text-lg text-muted-foreground leading-relaxed">
+        {post.data.description}
+      </p>
+    </div>
+
+    <hr class="border-border" />
+
+    <div class="prose prose-neutral dark:prose-invert max-w-none">
+      <Content />
+    </div>
+
+    {post.data.tags.length > 0 && (
+      <div class="flex flex-wrap items-center gap-1.5 pt-4 border-t border-border">
+        {post.data.tags.map((tag) => (
+          <span class="rounded-md border border-border bg-panel-2 px-2 py-0.5 font-mono text-xs text-muted-foreground">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    <footer class="pt-4 border-t border-border flex items-center justify-between">
+      <a
+        href="/blog"
+        class="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <Icon name="arrow-left" class="size-3.5" />
+        Back to all posts
+      </a>
+      <a
+        href="#"
+        class="text-xs font-mono text-muted-foreground hover:text-foreground transition-colors"
+      >
+        Back to top ↑
+      </a>
+    </footer>
+  </article>
+</BaseLayout>

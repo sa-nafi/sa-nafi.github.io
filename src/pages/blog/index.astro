@@ -1,0 +1,45 @@
+---
+import { getPublishedBlogPosts } from "../../lib/utils";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/blog/PostCard.astro";
+import { site } from "../../config/site";
+
+const posts = await getPublishedBlogPosts();
+---
+
+<BaseLayout
+  title={`Blog — ${site.name}`}
+  description="Technical writing on backend engineering, distributed systems, and algorithmic problem solving."
+>
+  <div class="flex flex-col gap-8">
+    <div>
+      {
+        posts.length > 0 && (
+          <p class="mb-3 font-mono text-xs uppercase tracking-wide text-muted-foreground">
+            {posts.length} {posts.length === 1 ? "post" : "posts"} · newest
+            first
+          </p>
+        )
+      }
+      <h1 class="text-3xl font-semibold tracking-tight text-foreground">
+        Blogs
+      </h1>
+    </div>
+
+    <hr class="border-border" />
+
+    {
+      posts.length === 0 ? (
+        <p class="py-10 text-sm text-muted-foreground">
+          No posts published yet.
+        </p>
+      ) : (
+        <div class="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+          {posts.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>

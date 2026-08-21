@@ -1,0 +1,52 @@
+---
+import { site } from "../../config/site";
+import Icon from "../icons/Icon.astro";
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t border-border py-7 mt-12">
+  <div
+    class="mx-auto flex max-w-235 flex-wrap items-center justify-between gap-3 px-6"
+  >
+    <span class="text-sm text-muted-foreground">
+      © {currentYear} {site.name}
+    </span>
+    <div class="flex items-center gap-3.5">
+      <a
+        href={site.socials.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="GitHub profile"
+        class="text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <Icon name="github" class="size-4.5" />
+      </a>
+      <a
+        href={site.socials.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="LinkedIn profile"
+        class="text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <Icon name="linkedin" class="size-4.5" />
+      </a>
+      <a
+        href={site.socials.codeforces}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Codeforces profile"
+        class="text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <Icon name="codeforces" class="size-4.5" />
+      </a>
+      <a
+        href={`mailto:${site.email}`}
+        aria-label="Send email"
+        class="text-muted-foreground hover:text-foreground transition-colors"
+      >
+        <Icon name="mail" class="size-4.5" />
+      </a>
+    </div>
+  </div>
+</footer>

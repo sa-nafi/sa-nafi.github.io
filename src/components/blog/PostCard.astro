@@ -1,0 +1,44 @@
+---
+import type { CollectionEntry } from 'astro:content'
+import Icon from '../icons/Icon.astro'
+import { formatDate, estimateReadingTime } from '../../lib/utils'
+
+interface Props {
+  post: CollectionEntry<'blog'>
+}
+
+const { post } = Astro.props
+const formattedDate = formatDate(post.data.publishedAt)
+const readingTime = estimateReadingTime(post.body || '')
+---
+
+<a
+  href={`/blog/${post.id}`}
+  class="group flex flex-col gap-2.5 rounded-xl border border-border bg-panel p-4.5 transition duration-150 hover:-translate-y-0.5 hover:border-border-strong"
+>
+  <div class="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wide text-muted-foreground">
+    <span>{formattedDate}</span>
+    <span>·</span>
+    <span>{readingTime}</span>
+  </div>
+
+  <h3 class="text-base font-semibold leading-snug text-foreground group-hover:text-primary transition-colors">
+    {post.data.title}
+  </h3>
+
+  <p class="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+    {post.data.description}
+  </p>
+
+  <div class="mt-auto flex flex-wrap items-center gap-1.5 pt-2">
+    {post.data.tags.slice(0, 3).map((tag) => (
+      <span class="rounded-md border border-border bg-panel-2 px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground">
+        {tag}
+      </span>
+    ))}
+    <Icon
+      name="arrow-right"
+      class="size-3.5 ml-auto text-muted-2 group-hover:text-foreground transition-colors"
+    />
+  </div>
+</a>
